@@ -46,11 +46,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CashierAccounts.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CashierAccounts.Designer.cs">
+      <DependentUpon>CashierAccounts.cs</DependentUpon>
+    </Compile>
     <Compile Include="CashierLogin.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="CashierLogin.Designer.cs">
       <DependentUpon>CashierLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ManagerDashboard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ManagerDashboard.Designer.cs">
+      <DependentUpon>ManagerDashboard.cs</DependentUpon>
     </Compile>
     <Compile Include="ManagerLogin.cs">
       <SubType>Form</SubType>
@@ -60,8 +72,14 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="CashierAccounts.resx">
+      <DependentUpon>CashierAccounts.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CashierLogin.resx">
       <DependentUpon>CashierLogin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ManagerDashboard.resx">
+      <DependentUpon>ManagerDashboard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ManagerLogin.resx">
       <DependentUpon>ManagerLogin.cs</DependentUpon>

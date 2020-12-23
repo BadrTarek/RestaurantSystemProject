@@ -15,6 +15,7 @@ namespace RestaurantSystem
     {
         SqlConnection con = new SqlConnection("data source=.;Initial Catalog=RestaurantSystem;Trusted_Connection=True;");
         SqlCommand cmd;
+        public static bool isLogin = false;
         public ManagerLogin()
         {
             InitializeComponent();
@@ -48,7 +49,11 @@ namespace RestaurantSystem
                     if(sdr["password"].ToString()==managerPassword.Text.ToString())
                     {
                         // Login = true;
-                        MessageBox.Show("Loged in", "Login", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        isLogin = true;
+                        this.Hide();
+                        ManagerDashboard dashboard = new ManagerDashboard(isLogin , managerName.Text.ToString());
+                        dashboard.Show();
+                        //MessageBox.Show("Loged in", "Login", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else
                     {
