@@ -46,14 +46,44 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
+    <Compile Include="CashierAccounts.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="CashierAccounts.Designer.cs">
+      <DependentUpon>CashierAccounts.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CashierLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CashierLogin.Designer.cs">
+      <DependentUpon>CashierLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ManagerDashboard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ManagerDashboard.Designer.cs">
+      <DependentUpon>ManagerDashboard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ManagerLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ManagerLogin.Designer.cs">
+      <DependentUpon>ManagerLogin.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="CashierAccounts.resx">
+      <DependentUpon>CashierAccounts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CashierLogin.resx">
+      <DependentUpon>CashierLogin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ManagerDashboard.resx">
+      <DependentUpon>ManagerDashboard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ManagerLogin.resx">
+      <DependentUpon>ManagerLogin.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
