@@ -35,6 +35,7 @@
             this.loginButton = new System.Windows.Forms.Button();
             this.managerName = new System.Windows.Forms.TextBox();
             this.managerPassword = new System.Windows.Forms.TextBox();
+            this.backButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // exitButton1
@@ -107,11 +108,22 @@
             this.managerPassword.Size = new System.Drawing.Size(178, 20);
             this.managerPassword.TabIndex = 6;
             // 
+            // backButton
+            // 
+            this.backButton.Location = new System.Drawing.Point(598, 371);
+            this.backButton.Name = "backButton";
+            this.backButton.Size = new System.Drawing.Size(75, 23);
+            this.backButton.TabIndex = 7;
+            this.backButton.Text = "Back";
+            this.backButton.UseVisualStyleBackColor = true;
+            this.backButton.Click += new System.EventHandler(this.backButton_Click);
+            // 
             // ManagerLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.backButton);
             this.Controls.Add(this.managerPassword);
             this.Controls.Add(this.managerName);
             this.Controls.Add(this.loginButton);
@@ -137,6 +149,7 @@
         private System.Windows.Forms.Button loginButton;
         private System.Windows.Forms.TextBox managerName;
         private System.Windows.Forms.TextBox managerPassword;
+        private System.Windows.Forms.Button backButton;
     }
 }
 

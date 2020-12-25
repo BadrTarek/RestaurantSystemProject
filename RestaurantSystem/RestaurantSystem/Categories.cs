@@ -11,64 +11,63 @@ using System.Data.SqlClient;
 
 namespace RestaurantSystem
 {
-    public partial class CashierAccounts : Form
+    public partial class Categories : Form
     {
         private bool isLogin = false;
+        private string managerNameLogedin = null;
         SqlConnection con = new SqlConnection("data source=.;Initial Catalog=RestaurantSystem;Trusted_Connection=True;");
         SqlCommand cmd;
-        private int employeeID = 0;
+        private int categoryID = 0;
         private bool isEditing = false;
-        private string managerName=null;
-        public CashierAccounts(bool login , string managerName)
+
+        public Categories(bool login , string managerName)
         {
             InitializeComponent();
-            isLogin = login;
-            this.managerName = managerName;
+            isLogin = true;
+            this.managerNameLogedin = managerName;
         }
         private void clear()
         {
             name.Clear();
-            password.Clear();
             searchName.Clear();
         }
-        
         private void displayData(string searchName = null)
         {
             if (searchName == null)
             {
                 con.Open();
                 DataTable dt = new DataTable();
-                cmd = new SqlCommand("SELECT name FROM Cashiers", con);
+                cmd = new SqlCommand("SELECT name FROM Categories", con);
                 SqlDataReader sdr = cmd.ExecuteReader();
                 dt.Load(sdr);
                 con.Close();
-                cashierEmployees.DataSource = dt;
+                categoriesList.DataSource = dt;
             }
             else
             {
                 con.Open();
                 DataTable dt = new DataTable();
-                cmd = new SqlCommand("SELECT name FROM Cashiers WHERE name LIKE '" + searchName + "' ", con);
+                cmd = new SqlCommand("SELECT name FROM Categories WHERE name LIKE '" + searchName + "' ", con);
                 SqlDataReader sdr = cmd.ExecuteReader();
                 dt.Load(sdr);
                 con.Close();
-                cashierEmployees.DataSource = dt;
+                categoriesList.DataSource = dt;
             }
         }
         private void reset()
         {
             displayData();
-            cashierEmployees.ClearSelection();
+            categoriesList.ClearSelection();
             clear();
             updateButton.Enabled = false;
             deleteButton.Enabled = false;
             addButton.Enabled = true;
-            employeeID = 0;
+            categoryID = 0;
             isEditing = false;
         }
         private bool validation()
         {
-            if (name.Text.ToString() == string.Empty || password.Text.ToString() == string.Empty)
+            if (name.Text.ToString() == string.Empty)
             {
                 return false;
             }
@@ -77,10 +76,9 @@ namespace RestaurantSystem
                 return true;
             }
         }
-
-        private void CashierAccounts_Load(object sender, EventArgs e)
+        private void Categories_Load(object sender, EventArgs e)
         {
-            if (isLogin == false)
+            if(!isLogin)
             {
                 this.Hide();
             }
@@ -89,55 +87,50 @@ namespace RestaurantSystem
                 reset();
             }
         }
+        
         private void exitButton1_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
-        
-        
+
         private void addButton_Click(object sender, EventArgs e)
         {
             if (validation())
             {
-                cmd = new SqlCommand("INSERT INTO Cashiers(name,password) VALUES('" + name.Text.ToString() + "','" + password.Text.ToString() + "') ", con);
+                cmd = new SqlCommand("INSERT INTO Categories(name) VALUES('" + name.Text.ToString() + "') ", con);
                 con.Open();
                 cmd.ExecuteNonQuery();
                 con.Close();
-                MessageBox.Show("Adding Success", "Add Employee", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Adding Success", "Add Manager", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 reset();
             }
             else
             {
-                MessageBox.Show("Data Must Be Valid", "Add Employee", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Data Must Be Valid", "Add Manager", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        private void cashierEmployees_SelectionChanged(object sender, EventArgs e)
-        {
-           
         }
 
         private void resetButton_Click(object sender, EventArgs e)
         {
             reset();
         }
-        private void cashierEmployees_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+
+        private void categoriesList_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (cashierEmployees.CurrentRow != null)
+            if (categoriesList.CurrentRow != null)
             {
                 con.Open();
-                cmd = new SqlCommand("SELECT cashier# , password FROM Cashiers WHERE name = '" + cashierEmployees.CurrentRow.Cells[0].Value.ToString() + "' ", con);
+                cmd = new SqlCommand("SELECT category# FROM Categories WHERE name = '" + categoriesList.CurrentRow.Cells[0].Value.ToString() + "' ", con);
                 SqlDataReader sdr = cmd.ExecuteReader();
                 if (sdr.HasRows)
                 {
                     sdr.Read();
-                    name.Text = cashierEmployees.CurrentRow.Cells[0].Value.ToString();
-                    password.Text = sdr["password"].ToString();
+                    name.Text = categoriesList.CurrentRow.Cells[0].Value.ToString();
                     updateButton.Enabled = true;
                     deleteButton.Enabled = true;
                     addButton.Enabled = false;
                     isEditing = true;
-                    employeeID = Convert.ToInt32(sdr["cashier#"].ToString());
+                    categoryID = Convert.ToInt32(sdr["category#"].ToString());
                 }
                 else
                 {
@@ -146,12 +139,13 @@ namespace RestaurantSystem
                 con.Close();
             }
         }
+
         private void updateButton_Click(object sender, EventArgs e)
         {
-            if(isEditing && employeeID>0)
+            if (isEditing && categoryID > 0)
             {
                 con.Open();
-                cmd = new SqlCommand("UPDATE Cashiers SET name = '" + name.Text.ToString() + "' , password='"+password.Text.ToString()+"' WHERE cashier# ="+employeeID+" ", con);
+                cmd = new SqlCommand("UPDATE Categories SET name = '" + name.Text.ToString() + "' WHERE category#="+categoryID+"", con);
                 cmd.ExecuteNonQuery();
                 con.Close();
                 reset();
@@ -163,14 +157,12 @@ namespace RestaurantSystem
             }
         }
 
-       
-
         private void deleteButton_Click(object sender, EventArgs e)
         {
-            if (isEditing && employeeID > 0)
+            if (isEditing && categoryID > 0)
             {
                 con.Open();
-                cmd = new SqlCommand("DELETE FROM Cashiers WHERE cashier# =" + employeeID + " ", con);
+                cmd = new SqlCommand("DELETE FROM Categories WHERE category# =" + categoryID + "", con);
                 cmd.ExecuteNonQuery();
                 con.Close();
                 reset();
@@ -200,7 +192,7 @@ namespace RestaurantSystem
         private void backButton_Click(object sender, EventArgs e)
         {
             this.Hide();
-            ManagerDashboard manager = new ManagerDashboard(isLogin, managerName);
+            ManagerDashboard manager = new ManagerDashboard(isLogin, managerNameLogedin);
             manager.Show();
         }
     }
