@@ -50,24 +50,30 @@ namespace RestaurantSystem
 
         private void productButton_Click(object sender, EventArgs e)
         {
-
+            Products products = new Products(isLogin, managerName);
+            this.Hide();
+            products.Show();
         }
 
         private void cashierButton_Click(object sender, EventArgs e)
         {
-            CashierAccounts cashierAcounts = new CashierAccounts(isLogin);
+            CashierAccounts cashierAcounts = new CashierAccounts(isLogin , managerName);
             this.Hide();
             cashierAcounts.Show();
         }
 
         private void managersButton_Click(object sender, EventArgs e)
         {
-
+            ManagerAccounts manager = new ManagerAccounts(isLogin, managerName);
+            this.Hide();
+            manager.Show();
         }
 
-        private void ordersButton_Click(object sender, EventArgs e)
+        private void categoriesButton_Click(object sender, EventArgs e)
         {
-            
+            Categories category = new Categories(isLogin, managerName);
+            this.Hide();
+            category.Show();
         }
     }
 }

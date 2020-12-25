@@ -70,5 +70,12 @@ namespace RestaurantSystem
             }
             
         }
+
+        private void backButton_Click(object sender, EventArgs e)
+        {
+            StartForm start = new StartForm();
+            this.Hide();
+            start.Show();
+        }
     }
 }

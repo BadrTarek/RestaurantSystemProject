@@ -35,7 +35,7 @@
             this.productButton = new System.Windows.Forms.Button();
             this.cashierButton = new System.Windows.Forms.Button();
             this.managersButton = new System.Windows.Forms.Button();
-            this.ordersButton = new System.Windows.Forms.Button();
+            this.categoriesButton = new System.Windows.Forms.Button();
             this.logout = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -81,9 +81,9 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.Controls.Add(this.productButton, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.cashierButton, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.managersButton, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.ordersButton, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.cashierButton, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.categoriesButton, 1, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 175);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
@@ -112,7 +112,7 @@
             this.cashierButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cashierButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cashierButton.ForeColor = System.Drawing.Color.White;
-            this.cashierButton.Location = new System.Drawing.Point(403, 3);
+            this.cashierButton.Location = new System.Drawing.Point(403, 53);
             this.cashierButton.Name = "cashierButton";
             this.cashierButton.Size = new System.Drawing.Size(393, 44);
             this.cashierButton.TabIndex = 1;
@@ -134,19 +134,19 @@
             this.managersButton.UseVisualStyleBackColor = true;
             this.managersButton.Click += new System.EventHandler(this.managersButton_Click);
             // 
-            // ordersButton
+            // categoriesButton
             // 
-            this.ordersButton.FlatAppearance.BorderSize = 0;
-            this.ordersButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ordersButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ordersButton.ForeColor = System.Drawing.Color.White;
-            this.ordersButton.Location = new System.Drawing.Point(403, 53);
-            this.ordersButton.Name = "ordersButton";
-            this.ordersButton.Size = new System.Drawing.Size(393, 44);
-            this.ordersButton.TabIndex = 3;
-            this.ordersButton.Text = "Orders";
-            this.ordersButton.UseVisualStyleBackColor = true;
-            this.ordersButton.Click += new System.EventHandler(this.ordersButton_Click);
+            this.categoriesButton.FlatAppearance.BorderSize = 0;
+            this.categoriesButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.categoriesButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.categoriesButton.ForeColor = System.Drawing.Color.White;
+            this.categoriesButton.Location = new System.Drawing.Point(403, 3);
+            this.categoriesButton.Name = "categoriesButton";
+            this.categoriesButton.Size = new System.Drawing.Size(393, 44);
+            this.categoriesButton.TabIndex = 3;
+            this.categoriesButton.Text = "Categories";
+            this.categoriesButton.UseVisualStyleBackColor = true;
+            this.categoriesButton.Click += new System.EventHandler(this.categoriesButton_Click);
             // 
             // logout
             // 
@@ -189,7 +189,7 @@
         private System.Windows.Forms.Button productButton;
         private System.Windows.Forms.Button cashierButton;
         private System.Windows.Forms.Button managersButton;
-        private System.Windows.Forms.Button ordersButton;
+        private System.Windows.Forms.Button categoriesButton;
         private System.Windows.Forms.Button logout;
     }
 }
