@@ -16,8 +16,7 @@ namespace RestaurantSystem
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            
-            Application.Run(new OrderItems());
+            Application.Run(new StartForm());
         }
     }
 }

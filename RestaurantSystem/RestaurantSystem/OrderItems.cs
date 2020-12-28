@@ -13,79 +13,118 @@ namespace RestaurantSystem
 {
     public partial class OrderItems : Form
     {
-        public int totalprice;
         SqlConnection con = new SqlConnection("data source=.;Initial Catalog =RestaurantSystem;Trusted_Connection=True");
         SqlCommand cmd;
-        SqlDataAdapter adapt ,a ;
-        public OrderItems()
+        private bool isLogin = false;
+        private int cashierID = 0;
+        private int orderID = 0;
+        private bool isSelectingProduct = false;
+        private int productID = 0;
+        private float price = 0f;
+        private float totalPrice = 0f; 
+        public OrderItems(bool isLogin, int cashierID , int orderID)
         {
             InitializeComponent();
+            this.isLogin = isLogin;
+            this.cashierID = cashierID;
+            this.orderID = orderID;
         }
-
-        private void OrderItems_Load(object sender, EventArgs e)
-        {
-            DisplayData();
-        }
-        
-        
         private void DisplayData()
         {
             con.Open();
             DataTable dt = new DataTable();
-            adapt = new SqlDataAdapter("select * from Products",con);
-            adapt.Fill(dt);
-            dataGridView1.DataSource = dt;
+            cmd = new SqlCommand("SELECT product# , name , price  FROM Products", con);
+            SqlDataReader sdr = cmd.ExecuteReader();
+            dt.Load(sdr);
             con.Close();
+            allProducts.DataSource = dt;
+        }
+        private void reset() {
+            DisplayData();
+            quantityTextBox.Enabled = false;
+            addOrderItemButton.Enabled = false;
+            productID = 0;
+            isSelectingProduct = false;
+            allProducts.ClearSelection();
+            price = 0;
+            quantityTextBox.Clear();
+            productNameTextBox.Clear();
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void OrderItems_Load(object sender, EventArgs e)
         {
-
-        }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value!=null)
+            if (!isLogin)
             {
-                dataGridView1.CurrentRow.Selected = true;
-                textBox3.Text = dataGridView1.Rows[e.RowIndex].Cells["product#"].FormattedValue.ToString();
-                textBox4.Text = dataGridView1.Rows[e.RowIndex].Cells["price"].FormattedValue.ToString();
-                textBox1.Text = dataGridView1.Rows[e.RowIndex].Cells["name"].FormattedValue.ToString();
-                
+                this.Hide();
+                CashierLogin cashier = new CashierLogin();
+                cashier.Show();
+            }
+            else
+            {
+                reset();
+            }
+        }
+        private void exitButton1_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+        private void allProducts_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (allProducts.CurrentRow != null)
+            {
+                quantityTextBox.Enabled = true;
+                addOrderItemButton.Enabled = true;
+                productNameTextBox.Text = allProducts.Rows[e.RowIndex].Cells["name"].FormattedValue.ToString();
+                productID = int.Parse(allProducts.Rows[e.RowIndex].Cells["product#"].FormattedValue.ToString());
+                price = float.Parse(allProducts.Rows[e.RowIndex].Cells["price"].FormattedValue.ToString());
+                isSelectingProduct = true;
             }
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private void addOrderItemButton_Click(object sender, EventArgs e)
         {
 
+            if(quantityTextBox.Text != string.Empty && productID>0 && orderID>0 && isSelectingProduct)
+            {
+                int qua = int.Parse(quantityTextBox.Text.ToString());
+                totalPrice +=( price*(float)qua);
+                cmd = new SqlCommand("INSERT INTO OrderItems(order#,product#,quantity) VALUES(" + orderID + "," + productID + "," + qua + ") ", con);
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+                MessageBox.Show("Adding Success", "Add Order Item", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                reset();
+            }
+            else
+            {
+                MessageBox.Show("Please Enter Quantity ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        { 
-            con.Open();
-            cmd = new SqlCommand("update Orders set totalPrice=+"+totalprice+ "where order# =(select order# from Orders where order#= ( select max(order#) from Orders)) ", con);
-            cmd.ExecuteNonQuery();
-            con.Close();
-            MessageBox.Show("The Total price = "+totalprice.ToString()); 
+        private void finishOrder()
+        {
+            reset();
+            orderID = 0;
+            cashierID = 0;
+            totalPrice = 0f;
+            isLogin = false;
+            isSelectingProduct = false;
+            productID = 0;
+            price = 0f;
+            totalPrice = 0f;
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {   con.Open();
-            a = new SqlDataAdapter("select order# from Orders where order#= ( select max(order#) from Orders)", con);
-            DataSet ds = new DataSet();
-           String order = a.Fill(ds, "order#").ToString();
-            con.Close();
+        private void checkOutButton_Click(object sender, EventArgs e)
+        {
             con.Open();
-          cmd = new SqlCommand("insert into OrderItems values(" + Convert.ToInt32(order.ToString()) + "," + Convert.ToInt32(textBox3.Text.ToString()) + "," + Convert.ToInt32(textBox2.Text.ToString()) + ")", con);
+            cmd = new SqlCommand("UPDATE Orders SET totalPrice = " + totalPrice + " where order# = "+orderID+" ", con);
             cmd.ExecuteNonQuery();
             con.Close();
-           totalprice = Convert.ToInt32(textBox4.Text.ToString())* Convert.ToInt32(textBox2.Text.ToString());
-           MessageBox.Show(" items  added successfully");
+            MessageBox.Show("The Total price = " + totalPrice.ToString(), "Add Order Item", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            CreateOrder createOrder = new CreateOrder(isLogin,cashierID);
+            this.Hide();
+            createOrder.Show();
+            finishOrder();
         }
     }
 }

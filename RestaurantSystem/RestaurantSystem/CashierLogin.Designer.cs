@@ -138,6 +138,7 @@
             this.Name = "CashierLogin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Cashier Login";
+            this.Load += new System.EventHandler(this.CashierLogin_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

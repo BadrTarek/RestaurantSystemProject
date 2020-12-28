@@ -40,15 +40,16 @@ namespace RestaurantSystem
             else
             {
                 con.Open();
-                cmd = new SqlCommand("SELECT password FROM Cashiers WHERE name='" + cashierName.Text.ToString() + "'", con);
+                cmd = new SqlCommand("SELECT cashier# , password FROM Cashiers WHERE name='" + cashierName.Text.ToString() + "'", con);
                 SqlDataReader sdr = cmd.ExecuteReader();
                 if (sdr.HasRows)
                 {
                     sdr.Read();
                     if (sdr["password"].ToString() == cashierPassword.Text.ToString())
                     {
-                        // Login = true;
-                        MessageBox.Show("Loged in", "Login", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        CreateOrder order = new CreateOrder(true, int.Parse(sdr["cashier#"].ToString()) );
+                        this.Hide();
+                        order.Show();
                     }
                     else
                     {
@@ -70,6 +71,11 @@ namespace RestaurantSystem
             StartForm start = new StartForm();
             this.Hide();
             start.Show();
+        }
+
+        private void CashierLogin_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
